@@ -168,6 +168,12 @@ body{min-height:100vh}
 .qBadge.C{border-color:#7d6942;color:#efd19b}
 .qBadge.TEST{border-color:#6b5a76;color:#d8c6e5}
 
+
+.handTiles{align-items:flex-end}
+.handTileWrap{display:flex;align-items:flex-end}
+.handTileWrap.drawn{margin-left:10px}
+@media(max-width:850px){.handTileWrap.drawn{margin-left:5px}}
+
 </style>
 </head>
 <body>
@@ -253,7 +259,7 @@ body{min-height:100vh}
             <div class="windCell"><b>③ 答えを見る</b><span>右上の「答えを見る」を押す</span></div>
           </div>
           <div class="helper" style="margin:8px 0 0">
-            標準で<b>実戦100局面</b>を出題します。待ち形は牌姿の枚数だけで決めず、完成形の分解から判定します。複数の受け形が成立する待ちは「複合」と表示します。<br>河は<b>6枚切りベース</b>。1段目は奥、2段目は中央、3段目は手前に並び、左右の牌は席方向に合わせて回転表示します。
+            標準で<b>実戦100局面</b>を出題します。待ち形は牌姿の枚数だけで決めず、完成形の分解から判定します。複数の受け形が成立する待ちは「複合」と表示します。<br>河は<b>6枚切りベース</b>。1段目は奥、2段目は中央、3段目は手前に並びます。手牌は<b>理牌して表示</b>し、現在のツモ牌だけ右端に少し離して表示します。
           </div>
         </div>
 
@@ -502,6 +508,23 @@ function pointBucketLabels(dealer){ return dealer ? {low:'〜2,900',p3900:'5,800
 function totalRiskProfile(rec,t){ const r=riskOf(rec,t); const hv=highValueProfile(rec,t); const dist=pointDistributionFromScore(hv.score,hv.dealer); const expectedLoss=Math.round((r.risk/100)*dist.expectedHitPoints); return {...r, highValue:hv.score, expectedHitPoints:dist.expectedHitPoints, expectedLoss, highValueReasons:hv.reasons, dealer:hv.dealer, pointDist:dist}; }
 function uniqueHand(rec){ return [...new Set(rec.hand)]; }
 
+
+function tileSortKey(t){
+  const n=normalizeTile(t);
+  const suitOrder={m:0,p:1,s:2,z:3};
+  const p=parseTile(n);
+  const redBias=(t==='m0'||t==='p0'||t==='s0') ? -0.1 : 0;
+  return (suitOrder[p.suit]??9)*20 + p.n + redBias;
+}
+function sortedDecisionHand(hand){
+  if(!Array.isArray(hand) || !hand.length) return [];
+  if(hand.length % 3 === 2){
+    const concealed=hand.slice(0,-1).sort((a,b)=>tileSortKey(a)-tileSortKey(b));
+    return concealed.map(t=>({tile:t,drawn:false})).concat([{tile:hand[hand.length-1],drawn:true}]);
+  }
+  return hand.slice().sort((a,b)=>tileSortKey(a)-tileSortKey(b)).map(t=>({tile:t,drawn:false}));
+}
+
 function fillRiver(el, arr, riichiPlayer, zone, riichiIndex){
   el.innerHTML='';
   const max=18;
@@ -545,7 +568,22 @@ function fillRiver(el, arr, riichiPlayer, zone, riichiIndex){
 }
 function renderBoard(rec){
   if(!rec) return;
-  const hand=document.getElementById('hand'); hand.innerHTML=''; if(!rec.hand.length) hand.innerHTML='<div class="empty">手牌なし</div>'; else rec.hand.forEach((t,i)=>hand.appendChild(makeTileElement(t,{size:'small',selected:state.selectedTile===t && rec.hand.indexOf(state.selectedTile)===i,click:()=>{ state.selectedTile=t; renderBoard(rec); showDetail(rec,t); }})));
+  const hand=document.getElementById('hand');
+  hand.innerHTML='';
+  if(!rec.hand.length){
+    hand.innerHTML='<div class="empty">手牌なし</div>';
+  }else{
+    const arranged=sortedDecisionHand(rec.hand);
+    let selectedUsed=false;
+    arranged.forEach(({tile:t,drawn})=>{
+      const wrap=document.createElement('div');
+      wrap.className='handTileWrap'+(drawn?' drawn':'');
+      const isSelected=state.selectedTile===t && !selectedUsed;
+      if(isSelected) selectedUsed=true;
+      wrap.appendChild(makeTileElement(t,{size:'small',selected:isSelected,click:()=>{ state.selectedTile=t; renderBoard(rec); showDetail(rec,t); }}));
+      hand.appendChild(wrap);
+    });
+  }
   document.getElementById('handCount').textContent=rec.hand.length+'枚';
   fillRiver(document.getElementById('river0'), rec.rivers[0]||[], rec.riichi_player, 'r0', rec.riichi_index);
   fillRiver(document.getElementById('river1'), rec.rivers[1]||[], rec.riichi_player, 'r1', rec.riichi_index);
