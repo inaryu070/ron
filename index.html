@@ -834,7 +834,7 @@ body.started .heroAnimSplash{opacity:0; visibility:hidden; pointer-events:none; 
 /* v66 external PNG splash: stable GitHub/iPhone loading */
 .staticSplash{
   position:fixed;inset:0;z-index:99999;overflow:hidden;display:block;touch-action:manipulation;
-  background:#05080d url('cover_v85.jpg') center center / cover no-repeat;
+  background:#05080d url('cover_v86.jpg') center center / cover no-repeat;
 }
 .staticSplash::before{
   content:"";position:absolute;inset:0;pointer-events:none;z-index:1;
@@ -917,7 +917,7 @@ body.started .staticSplash{display:none!important}
   display:block!important;
   width:100%!important;
   height:100%!important;
-  background-image:url('tile_atlas_v85.jpg');
+  background-image:url('tile_atlas_v86.jpg');
   background-repeat:no-repeat;
   background-size:1000% 400%;
   background-position:calc(var(--sx) * 11.111111%) calc(var(--sy) * 33.333333%);
@@ -935,7 +935,7 @@ body.started .staticSplash{display:none!important}
 
 /* v76: tighter tile face + seat-correct river orientation */
 .tileImg.tileSprite{
-  background-image:url('tile_atlas_v85.jpg')!important;
+  background-image:url('tile_atlas_v86.jpg')!important;
   background-size:1000% 400%!important;
   background-position:calc(var(--sx) * 11.111111%) calc(var(--sy) * 33.333333%)!important;
 }
@@ -1029,8 +1029,8 @@ body.started .staticSplash{display:none!important}
 
 </style>
 
-<link rel="preload" as="image" href="cover_v85.jpg">
-<link rel="preload" as="image" href="tile_atlas_v85.jpg">
+<link rel="preload" as="image" href="cover_v86.jpg">
+<link rel="preload" as="image" href="tile_atlas_v86.jpg">
 
 <style>
 /* v81 hybrid reading engine */
@@ -1090,12 +1090,12 @@ body.started .staticSplash{display:none!important}
   else bindSplashStart();
 })();
 </script>
-<audio id="siteBgm" src="mahjong_bgm_v85.mp3" preload="metadata" loop playsinline></audio>
+<audio id="siteBgm" src="mahjong_bgm_v86.mp3" preload="metadata" loop playsinline></audio>
 <div class="bgmControl"><button id="bgmToggle" class="bgmToggle" type="button" data-state="on" aria-pressed="true">♫ BGM ON</button></div>
 <div class="app">
   <div class="topbar">
     <div class="brand">
-      <div class="kicker">NEON RIICHI SOCIAL CLUB / v85.0</div>
+      <div class="kicker">NEON RIICHI SOCIAL CLUB / v86.0</div>
       <h1><span class="cnTitle">雀灯牌譜</span><span class="enTitle">SUTEHAI ORACLE</span></h1>
       <p><b>リーチに対する捨て牌読み</b>を鍛えるトレーニングツール。<br>危険度・役候補・想定打点・押し引きを、1つの卓面で確認できます。</p>
       <div class="brandTags">
@@ -3662,6 +3662,11 @@ body.ui-simple .creatorFooter{margin-top:18px}
  body.ui-simple .brand p{display:none}
  body.ui-simple .topbar{gap:8px}.v85SimpleCard{padding:11px}.v85SimpleHead{margin-bottom:7px}
 }
+/* v86: persistent return control for analysis mode */
+#v86BackModeBtn{display:none;position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);left:10px;z-index:1600;border:1px solid rgba(255,255,255,.16);background:rgba(8,13,17,.90);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:#f3f6f7;border-radius:999px;padding:9px 12px;font-size:10px;font-weight:900;letter-spacing:.01em;box-shadow:0 8px 24px rgba(0,0,0,.28);cursor:pointer}
+body.ui-expert.started #v86BackModeBtn{display:inline-flex;align-items:center;gap:5px}
+#v86BackModeBtn:active{transform:translateY(1px)}
+@media(max-width:700px){#v86BackModeBtn{top:calc(env(safe-area-inset-top,0px) + 8px);left:8px;padding:8px 10px;font-size:10px}}
 </style>
 <script>
 // ===== v85 simplified first-touch UI =====
@@ -3719,6 +3724,18 @@ body.ui-simple .creatorFooter{margin-top:18px}
     updateFlow();
   }
   function install(){
+    if(!document.getElementById('v86BackModeBtn')){
+      const back=document.createElement('button');
+      back.id='v86BackModeBtn';
+      back.type='button';
+      back.setAttribute('aria-label','シンプル表示に戻る');
+      back.innerHTML='← シンプル表示に戻る';
+      back.onclick=()=>{
+        setMode('simple');
+        try{window.scrollTo({top:0,left:0,behavior:'smooth'});}catch(e){try{window.scrollTo(0,0);}catch(_e){}}
+      };
+      document.body.appendChild(back);
+    }
     const top=document.querySelector('.topbar');
     if(top&&!document.getElementById('v85ModeSwitch')){
       const tools=document.createElement('div');tools.className='v85TopTools';
@@ -3744,6 +3761,7 @@ body.ui-simple .creatorFooter{margin-top:18px}
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true}); else install();
   window.v85UpdateSimple=updateSimple;
+  window.v85SetMode=setMode;
 })();
 </script>
 
