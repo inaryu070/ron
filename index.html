@@ -834,7 +834,7 @@ body.started .heroAnimSplash{opacity:0; visibility:hidden; pointer-events:none; 
 /* v66 external PNG splash: stable GitHub/iPhone loading */
 .staticSplash{
   position:fixed;inset:0;z-index:99999;overflow:hidden;display:block;touch-action:manipulation;
-  background:#05080d url('cover_v78.jpg') center center / cover no-repeat;
+  background:#05080d url('cover_v79.jpg') center center / cover no-repeat;
 }
 .staticSplash::before{
   content:"";position:absolute;inset:0;pointer-events:none;z-index:1;
@@ -917,7 +917,7 @@ body.started .staticSplash{display:none!important}
   display:block!important;
   width:100%!important;
   height:100%!important;
-  background-image:url('tile_atlas_v78.jpg');
+  background-image:url('tile_atlas_v79.jpg');
   background-repeat:no-repeat;
   background-size:1000% 400%;
   background-position:calc(var(--sx) * 11.111111%) calc(var(--sy) * 33.333333%);
@@ -935,7 +935,7 @@ body.started .staticSplash{display:none!important}
 
 /* v76: tighter tile face + seat-correct river orientation */
 .tileImg.tileSprite{
-  background-image:url('tile_atlas_v78.jpg')!important;
+  background-image:url('tile_atlas_v79.jpg')!important;
   background-size:1000% 400%!important;
   background-position:calc(var(--sx) * 11.111111%) calc(var(--sy) * 33.333333%)!important;
 }
@@ -955,7 +955,7 @@ body.started .staticSplash{display:none!important}
 
 
 
-/* v78: riichi reading engine distilled from v13 cut-order analysis. */
+/* v79: right-seat river order fix + v78 reading engine. */
 .readEngineCard{border-color:rgba(121,225,255,.18)!important;background:linear-gradient(180deg,rgba(23,43,53,.96),rgba(12,20,25,.98))!important}
 .readEngineBadge{display:inline-flex;align-items:center;padding:5px 9px;border-radius:999px;border:1px solid rgba(116,220,255,.25);font-size:10px;font-weight:900;color:#c8f5ff;background:rgba(91,211,255,.07)}
 .readEngineBadge.back{color:#ffe4a2;border-color:rgba(255,211,109,.28);background:rgba(255,211,109,.06)}
@@ -998,8 +998,8 @@ body.started .staticSplash{display:none!important}
 
 </style>
 
-<link rel="preload" as="image" href="cover_v78.jpg">
-<link rel="preload" as="image" href="tile_atlas_v78.jpg">
+<link rel="preload" as="image" href="cover_v79.jpg">
+<link rel="preload" as="image" href="tile_atlas_v79.jpg">
 </head>
 <body>
 <div id="splashScreen" class="staticSplash" aria-label="雀灯牌譜 スタート画面">
@@ -1025,7 +1025,7 @@ body.started .staticSplash{display:none!important}
   else bindSplashStart();
 })();
 </script>
-<audio id="siteBgm" src="mahjong_bgm_v78.mp3" preload="metadata" loop playsinline></audio>
+<audio id="siteBgm" src="mahjong_bgm_v79.mp3" preload="metadata" loop playsinline></audio>
 <div class="bgmControl"><button id="bgmToggle" class="bgmToggle" type="button" data-state="on" aria-pressed="true">♫ BGM ON</button></div>
 <div class="app">
   <div class="topbar">
@@ -1649,10 +1649,10 @@ function fillRiver(el, arr, riichiPlayer, zone, riichiIndex){
       col=3-band;
       row=pos+1;
     }else if(zone==='r3'){
-      // 下家（右）: 1段目は左列（中心寄り）、上→下
+      // 下家（右）: 1列目は左側（中心寄り）。本人視点の左→右は画面では下→上
       slot.className='riverSlot sideRight';
       col=band+1;
-      row=pos+1;
+      row=6-pos;
     }
 
     slot.style.gridColumn=String(col);
