@@ -1,0 +1,12 @@
+{
+  "refs": [
+    "mahjong_bgm_v87.mp3",
+    "cover_v87.jpg",
+    "tile_atlas_v87.jpg"
+  ],
+  "status": {
+    "mahjong_bgm_v87.mp3": true,
+    "cover_v87.jpg": true,
+    "tile_atlas_v87.jpg": true
+  }
+}

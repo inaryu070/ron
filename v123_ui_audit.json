@@ -1,0 +1,12 @@
+{
+  "version": "v123",
+  "logic_change": false,
+  "reveal_moved_from_tiles": true,
+  "prev_button_added": true,
+  "nav_order": [
+    "前の局面",
+    "答えを見る",
+    "次の局面"
+  ],
+  "syntax_check": "passed"
+}
