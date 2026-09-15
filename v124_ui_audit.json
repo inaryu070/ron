@@ -1,0 +1,11 @@
+{
+  "version": "v124",
+  "logic_change": false,
+  "action_bar_moved_outside_table": true,
+  "prev_button_added": true,
+  "reveal_button_moved_below_table": true,
+  "notes": [
+    "Removed answer/navigation controls from inside player hand area",
+    "Added dedicated action card below table to avoid overlap with own river"
+  ]
+}

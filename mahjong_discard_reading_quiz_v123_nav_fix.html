@@ -1188,14 +1188,6 @@ body.started .staticSplash{display:none!important}
             <section class="seat bottom">
               <div class="seatTitle"><b>あなたの手牌</b><span id="handCount">0枚</span></div>
               <div class="tiles handTiles" id="hand"></div>
-              <div class="v123AnswerZone">
-                <div class="v123AnswerHint">打牌を選んだら、下のボタンで答え合わせ</div>
-                <div class="handControls v123NavControls">
-                  <button class="btn handBtn" id="prevBtnMobile">← 前の局面</button>
-                  <button class="btn primary handBtn v123RevealBtn" id="revealBtn">答えを見る</button>
-                  <button class="btn handBtn" id="nextBtn">次の局面 →</button>
-                </div>
-              </div>
             </section>
             <section class="centerBox">
               <div class="windBadge top" id="tableWindTop">対面</div>
@@ -1216,6 +1208,15 @@ body.started .staticSplash{display:none!important}
                 <div id="generatorHint" style="display:none"></div>
               </div>
             </section>
+          </div>
+        </div>
+
+        <div class="card v124ActionBar" style="margin-top:12px">
+          <div class="v124ActionHint">打牌を選んだら、ここで答え合わせ・問題移動</div>
+          <div class="handControls v123NavControls v124NavControls">
+            <button class="btn handBtn" id="prevBtnMobile">← 前の局面</button>
+            <button class="btn primary handBtn v123RevealBtn" id="revealBtn">答えを見る</button>
+            <button class="btn handBtn" id="nextBtn">次の局面 →</button>
           </div>
         </div>
 
@@ -5251,6 +5252,22 @@ body.ui-simple .v88Metric strong{font-size:15px}
   .v123NavControls .handBtn{font-size:12px;padding:11px 6px;min-height:46px}
   .v123AnswerHint{font-size:10px;margin-bottom:9px}
 }
+
+.v124ActionBar{padding:12px 14px}
+.v124ActionHint{text-align:center;font-size:11px;opacity:.68;margin-bottom:10px}
+.v124NavControls{display:grid!important;grid-template-columns:1fr 1.2fr 1fr;gap:8px;align-items:stretch}
+.v124NavControls .handBtn{min-height:46px}
+@media(max-width:850px){
+  .v124ActionBar{padding:10px 10px}
+  .v124ActionHint{font-size:10px;margin-bottom:8px}
+  .v124NavControls{grid-template-columns:1fr 1.28fr 1fr;gap:7px}
+  .v124NavControls .handBtn{font-size:12px;padding:11px 6px;min-height:46px}
+  .seat.selfriver{bottom:118px;width:156px}
+  .seat.bottom{bottom:2px;width:calc(100% - 8px)}
+}
+@media(max-width:390px){
+  .seat.selfriver{bottom:112px;width:150px}
+}
 </style>
 
 
@@ -5299,5 +5316,7 @@ window.V123_UI_AUDIT={
 };
 </script>
 
+
+<script>window.V124_UI_AUDIT={version:'v124',logic_change:false,action_bar_moved_outside_table:true,prev_button:true,reveal_button:true,goal:'prevent overlap between own river and hand while keeping answer button away from tiles'};</script>
 </body>
 </html>
