@@ -1,0 +1,10 @@
+{
+  "version": "v125",
+  "logic_change": false,
+  "river_hand_overlap_fix": true,
+  "changes": [
+    "Raised own river position on screens <=850px from bottom 118px to 148px",
+    "Raised own river position on screens <=390px from bottom 112px to 142px",
+    "Kept hand at bottom to maximize gap between river and hand"
+  ]
+}
